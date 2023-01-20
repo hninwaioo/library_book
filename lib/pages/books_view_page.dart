@@ -455,6 +455,7 @@ class BooksListHorizontalSectionView extends StatelessWidget {
                         // booksList[index].openedDate??""
 
 
+
                     );
                   },
                 );
