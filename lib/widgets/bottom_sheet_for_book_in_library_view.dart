@@ -6,9 +6,36 @@ import '../data/vos/book_vo.dart';
 import '../view_items/banner_book_image_item_view.dart';
 
 class BottomSheetForBookInLibraryView extends StatelessWidget {
-  BookVO bookVO;
-  Function(BookVO) onTapBookAddToShelf;
-  BottomSheetForBookInLibraryView({required this.bookVO, required this.onTapBookAddToShelf});
+  // BookVO? bookVO;
+  // Function(BookVO) onTapBookAddToShelf;
+  // BottomSheetForBookInLibraryView({required this.bookVO, required this.onTapBookAddToShelf});
+
+  bool visibleRemoveDownload;
+  bool visibleDownload;
+  bool visibleDeleteFromLibrary;
+  bool visibleAddToShelves;
+  bool visibleMarkAsRead;
+  bool visibleFreeSample;
+  bool visibleAddToWishlist;
+  bool visibleAboutThisBook;
+
+  BookVO? book;
+  Function(BookVO?) onPressedIcon;
+  Function()? addToShelf;
+
+  BottomSheetForBookInLibraryView({
+    this.addToShelf,
+    required this.book,
+    required this.onPressedIcon,
+    this.visibleAboutThisBook = false,
+    this.visibleAddToShelves = false,
+    this.visibleAddToWishlist = false,
+    this.visibleDeleteFromLibrary = false,
+    this.visibleDownload = false,
+    this.visibleFreeSample = false,
+    this.visibleMarkAsRead = false,
+    this.visibleRemoveDownload = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +44,15 @@ class BottomSheetForBookInLibraryView extends StatelessWidget {
       child: Column(
         children: [
           BottomSheetBookImageView(
-            mBookImage: bookVO.bookImage??"",
+            mBookImage: book?.bookImage??"",
             // "https://m.media-amazon.com/images/I/51EkeX9IfCL._SX323_BO1,204,203,200_.jpg",
-            bookTitle: bookVO.title??"",
-            authorName: bookVO.author??"",
+            bookTitle: book?.title??"",
+            authorName: book?.author??"",
           ),
 
           BottomSheetEbookItemsView(
-            bookVO: bookVO,
-            onTapBookAddToShelf: onTapBookAddToShelf,
+            bookVO: book,
+            onTapBookAddToShelf: addToShelf!()
           )
         ],
       )
@@ -53,7 +80,7 @@ class BottomSheetBookImageView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 130,
+            height: 135,
             width: 100,
             child: BannerBookImageItemView(
               mImageUrl: mBookImage,
@@ -80,7 +107,7 @@ class BottomSheetBookImageView extends StatelessWidget {
 }
 
 class BottomSheetEbookItemsView extends StatelessWidget {
-  BookVO bookVO;
+  BookVO? bookVO;
   Function(BookVO) onTapBookAddToShelf;
   BottomSheetEbookItemsView({required this.bookVO, required this.onTapBookAddToShelf});
 
@@ -114,7 +141,7 @@ class BottomSheetEbookItemsView extends StatelessWidget {
 
           GestureDetector(
             onTap: (){
-              onTapBookAddToShelf(bookVO);
+              onTapBookAddToShelf(bookVO!);
             },
             child: Row(
               children: [

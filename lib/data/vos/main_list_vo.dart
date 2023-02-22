@@ -7,7 +7,7 @@ part 'main_list_vo.g.dart';
 
 @JsonSerializable()
 @HiveType(typeId: HIVE_TYPE_ID_MAIN_LIST_VO, adapterName : "MainListVOAdapter")
-class MainListVO {
+class MainListBookSectionVO {
 
   // "list_id": 704,
   @JsonKey(name: "list_id")
@@ -54,7 +54,7 @@ class MainListVO {
   @HiveField(8)
   List<BookVO>? books;
 
-  MainListVO(
+  MainListBookSectionVO(
       this.listId,
       this.listName,
       this.listNameEncoded,
@@ -65,8 +65,8 @@ class MainListVO {
       this.listImageHeight,
       this.books);
 
-  factory MainListVO.fromJson(Map<String,dynamic> json) => _$MainListVOFromJson(json);
-  Map<String,dynamic> toJson() => _$MainListVOToJson(this);
+  factory MainListBookSectionVO.fromJson(Map<String,dynamic> json) => _$MainListBookSectionVOFromJson(json);
+  Map<String,dynamic> toJson() => _$MainListBookSectionVOToJson(this);
 
   @override
   String toString() {

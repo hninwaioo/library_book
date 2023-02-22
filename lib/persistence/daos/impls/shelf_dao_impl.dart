@@ -13,7 +13,7 @@ class ShelfDaoImpl extends ShelfDao {
 
   /// Persistence
   @override
-  void saveAllShelves(List<ShelfVO>? shelfList) async {
+  void saveAllShelves(List<ShelfVO?>? shelfList) async {
     Map<String?, ShelfVO> shelfMap = Map.fromIterable(shelfList ?? [],
         key: (shelf) => shelf.shelfName, value: (shelf) => shelf);
     await getShelfBox().putAll(shelfMap);

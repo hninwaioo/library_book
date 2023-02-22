@@ -13,7 +13,7 @@ class ProviderShelfBloc extends ChangeNotifier {
   /// Model
   BookModel mBookModel = BookModelImpl();
 
-  ShelfBloc() {
+  ProviderShelfBloc() {
 
     mBookModel.getBooksFromDatabase().listen((books) {
       if(books?.isNotEmpty?? false){
@@ -33,7 +33,7 @@ class ProviderShelfBloc extends ChangeNotifier {
       debugPrint(error.toString());
     });
   }
-  void saveAllShelves(List<ShelfVO>? shelfList) {
+  void saveAllShelves(List<ShelfVO?>? shelfList) {
     mBookModel.saveAllShelves(shelfList);
     notifySafely();
   }

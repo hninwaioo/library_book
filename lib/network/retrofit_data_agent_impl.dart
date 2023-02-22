@@ -1,3 +1,4 @@
+import 'package:library_app/data/vos/main_list_vo.dart';
 import 'package:library_app/data/vos/results_vo.dart';
 import 'package:library_app/network/book_data_agent.dart';
 import 'package:library_app/network/the_book_api.dart';
@@ -37,11 +38,30 @@ class RetrofitDataAgentImpl extends BookDataAgent{
     googleBookApi = TheGoogleBookApi(gDio);
   }
 
+  // @override
+  // Future<ResultsVO?> getOverviewBooks() {
+  //   return mApi.getOverviewBooks(API_KEY)
+  //       .asStream()
+  //       .map((response) => response.results)
+  //       .first;
+  // }
+
   @override
-  Future<ResultsVO?> getOverviewBooks() {
-    return mApi.getOverviewBooks(API_KEY)
+  Future<List<MainListBookSectionVO?>?> getOverviewBooks(String publishedDate) {
+    return mApi.getOverviewList(API_KEY,publishedDate)
         .asStream()
-        .map((response) => response.results)
+    .map((response) => response.results?.lists)
+        // .map((response) => response.result?.lists)
+        .first;
+  }
+
+
+  @override
+  Future<List<MainListBookSectionVO?>?> getBooksByListName(String listName) {
+    return mApi
+        .getBooksByListName(API_KEY, listName)
+        .asStream()
+        .map((response) => response.result)
         .first;
   }
 

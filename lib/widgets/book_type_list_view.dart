@@ -11,12 +11,6 @@ class BookTypeListView extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // Expanded(
-        //   child:
-        //   Container(
-        //     // width: MediaQuery.of(context).size.width/1,
-        //       child: TypicalText(bookTypes,Colors.black,TEXT_REGULAR_2x,isFontWeight: true)
-        //   ),
 
           Container(
             width: MediaQuery.of(context).size.width/1.5,

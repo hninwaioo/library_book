@@ -6,7 +6,7 @@ import '../data/models/book_model_impl.dart';
 
 class ProviderHomeBloc extends ChangeNotifier {
   ///States
-  List<MainListVO>? mMainList;
+  List<MainListBookSectionVO>? mBookSectionList;
   List<BookVO>? mBookList;
   List<BookVO>? mBookListFromDatabase;
   bool isDispose = false;
@@ -30,26 +30,49 @@ class ProviderHomeBloc extends ChangeNotifier {
     //   notifyListeners();
     // });
 
-    /// Main List DataBase
-    mBookModel.getOverviewBooksFromDatabase().listen((bookList) async{
-      mMainList = bookList??[];
-      debugPrint("Main List From Database===>$mBookListFromDatabase");
+    // /// Main List DataBase
+    // mBookModel.getOverviewBooksFromDatabase().listen((bookList) async{
+    //   mMainList = bookList??[];
+    //   debugPrint("Main List From Database===>$mBookListFromDatabase");
+    //   notifySafely();
+    // }).onError((error){
+    //   debugPrint(error.toString());
+    // });
+
+
+    mBookModel.getOverviewBooksFromDatabase()?.listen((bookSections) {
+      mBookSectionList = bookSections;
       notifySafely();
-    }).onError((error){
+    }).onError((error) {
       debugPrint(error.toString());
     });
 
     /// Book List DataBase
-    mBookModel.getBooksFromDatabase().listen((bookList) async {
-      mBookListFromDatabase = bookList??[];
-      debugPrint("Book List From Database===>$mBookListFromDatabase");
-      notifySafely();
+    // mBookModel.getBooksFromDatabase().listen((bookList) async {
+    //   mBookListFromDatabase = bookList??[];
+    //   debugPrint("Book List From Database===>$mBookListFromDatabase");
+    //   notifySafely();
+    //
+    // }).onError((error){
+    //   debugPrint(error.toString());
+    // });
 
-    }).onError((error){
+    mBookModel.getBooksFromDatabase().listen((books) {
+      mBookList = books;
+      notifySafely();
+    }).onError((error) {
       debugPrint(error.toString());
     });
   }
-  void saveBooksToLibrary(List<BookVO?>? bookList) {
+
+  /// Books by List NetworkCall
+  void callBooksByList(String listName){
+    mBookModel.getBooksByListNameNetwork(listName);
+    notifySafely();
+  }
+
+
+  void saveAllBooks(List<BookVO?>? bookList) {
     mBookModel.savedBooksToLibrary(bookList??[]);
     notifySafely();
   }
@@ -59,4 +82,14 @@ class ProviderHomeBloc extends ChangeNotifier {
       notifyListeners();
     }
   }
+  void saveBooksToLibrary(List<BookVO?>? bookList) {
+    mBookModel.savedBooksToLibrary(bookList??[]);
+    notifySafely();
+  }
+  //
+  // void notifySafely() {
+  //   if (isDispose == false) {
+  //     notifyListeners();
+  //   }
+  // }
 }

@@ -5,7 +5,11 @@ import '../data/vos/google_vos/google_book_vo.dart';
 
 
 abstract class BookDataAgent {
-  Future<ResultsVO?> getOverviewBooks();
+  // Future<ResultsVO?> getOverviewBooks();
+
+  Future<List<MainListBookSectionVO?>?> getOverviewBooks(String publishedDate);
+  Future<List<MainListBookSectionVO?>?> getBooksByListName(String listName);
+
   Future<List<GoogleBookVO>?> getBookListFromGoogle(String searchBookName);
 
 }

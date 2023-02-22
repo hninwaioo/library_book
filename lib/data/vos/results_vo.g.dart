@@ -22,7 +22,7 @@ class ResultsVOAdapter extends TypeAdapter<ResultsVO> {
       fields[2] as String?,
       fields[3] as String?,
       fields[4] as String?,
-      (fields[5] as List?)?.cast<MainListVO>(),
+      (fields[5] as List?)?.cast<MainListBookSectionVO>(),
     );
   }
 
@@ -66,7 +66,8 @@ ResultsVO _$ResultsVOFromJson(Map<String, dynamic> json) => ResultsVO(
       json['previous_published_date'] as String?,
       json['next_published_date'] as String?,
       (json['lists'] as List<dynamic>?)
-          ?.map((e) => MainListVO.fromJson(e as Map<String, dynamic>))
+          ?.map(
+              (e) => MainListBookSectionVO.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

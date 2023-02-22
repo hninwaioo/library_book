@@ -18,7 +18,7 @@ class RatingsAndReviewsView extends StatelessWidget {
         children: [
           RatingsColumnSectionView(),
           SizedBox(width: MARGIN_MEDIUM,),
-          LinearProgressBarCountSectionView()
+          AllRatingBarsView()
         ],
       ),
     );
@@ -50,6 +50,7 @@ class RatingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RatingBar.builder(
+      initialRating: 4,
       itemBuilder: (BuildContext context, int index){
         return Icon(
           Icons.star,
@@ -60,6 +61,74 @@ class RatingView extends StatelessWidget {
       onRatingUpdate: (rating){
         print(rating);
       },
+    );
+  }
+}
+class AllRatingBarsView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SingleBarForEachRatingView(digit: "5", width: 100),
+        SizedBox(height: 2),
+        SingleBarForEachRatingView(digit: "4", width: 58),
+        SizedBox(height: 2),
+        SingleBarForEachRatingView(digit: "3", width: 42),
+        SizedBox(height: 2),
+        SingleBarForEachRatingView(digit: "2", width: 38),
+        SizedBox(height: 2),
+        SingleBarForEachRatingView(digit: "1", width: 13),
+      ],
+    );
+  }
+}
+
+class SingleBarForEachRatingView extends StatelessWidget {
+  String digit;
+  double? width;
+  SingleBarForEachRatingView({required this.width, required this.digit});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          digit,
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+          ),
+        ),
+        SizedBox(width: 12),
+        Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.black12,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
+              ),
+              height: 8,
+              width: 180,
+            ),
+            Positioned(
+              left: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8),
+                  ),
+                ),
+                height: 8,
+                width: width,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -76,9 +145,8 @@ class LinearProgressBarSectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
+    return
+      Row(
           children: [
             TypicalText(progressCount, Colors.blue, 18),
             // LinearProgressIndicator(
@@ -88,7 +156,7 @@ class LinearProgressBarSectionView extends StatelessWidget {
             // ),
 
             GFProgressBar(
-              percentage: 0.7,
+              percentage: progressRate,
               lineHeight: 10, //2
               width: 120,
               // alignment: MainAxisAlignment.spaceBetween,
@@ -101,9 +169,7 @@ class LinearProgressBarSectionView extends StatelessWidget {
               progressBarColor: Colors.blue,
             )
           ],
-        )
-      ],
-    );
+        );
   }
 }
 
@@ -114,10 +180,10 @@ class LinearProgressBarCountSectionView extends StatelessWidget {
     return Column(
       children: [
         LinearProgressBarSectionView(progressCount: "5",progressRate: 0.7,),
-        LinearProgressBarSectionView(progressCount: "4",progressRate: 0.7,),
-        LinearProgressBarSectionView(progressCount: "3",progressRate: 0.7,),
-        LinearProgressBarSectionView(progressCount: "2",progressRate: 0.7,),
-        LinearProgressBarSectionView(progressCount: "1",progressRate: 0.7,)
+        LinearProgressBarSectionView(progressCount: "4",progressRate: 0.6,),
+        LinearProgressBarSectionView(progressCount: "3",progressRate: 0.5,),
+        LinearProgressBarSectionView(progressCount: "2",progressRate: 0.4,),
+        LinearProgressBarSectionView(progressCount: "1",progressRate: 0.3,)
       ],
     );
   }

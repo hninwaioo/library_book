@@ -1,13 +1,16 @@
+import '../../data/vos/book_vo.dart';
 import '../../data/vos/main_list_vo.dart';
 
 abstract class BookMainListDao{
-  void savedAllBooksMainList(List<MainListVO> bookMainList);
-  void savedBookMainList(MainListVO mainListVO);
-  List<MainListVO> getAllBooksMainList();
-  MainListVO? getSingleBookMainList(String listName);
+  // void saveAllBookSection(List<BookSectionVO?>? bookSectionList);
+
+  void savedAllBooksMainList(List<MainListBookSectionVO?>? bookMainList);
+  void savedBookMainList(MainListBookSectionVO mainListVO);
+  List<MainListBookSectionVO> getAllBooksMainList();
+  MainListBookSectionVO? getSingleBookMainList(String listName);
   Stream<void> getAllBookMainListEventStream();
-  Stream<List<MainListVO>> getAllBooksMainListStream();
-  Stream<MainListVO?> getSingleBookMainListStream(String listName);
-  List<MainListVO> getAllBookMainList();
-  MainListVO? getBookMainList(String listName);
+  Stream<List<MainListBookSectionVO>> getAllBooksMainListStream();
+  Stream<MainListBookSectionVO?> getSingleBookMainListStream(String listName);
+  List<MainListBookSectionVO> getAllBookMainList();
+  MainListBookSectionVO? getBookMainList(String listName);
 }

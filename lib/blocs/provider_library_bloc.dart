@@ -50,7 +50,7 @@ class ProviderLibraryBloc extends ChangeNotifier {
     mBookModel.savedBooksToLibrary(bookList??[]);
   }
 
-  void saveAllShelves(List<ShelfVO>? shelfList) {
+  void saveAllShelves(List<ShelfVO?>? shelfList) {
     mBookModel.saveAllShelves(shelfList);
   }
 

@@ -6,17 +6,17 @@ part of 'main_list_vo.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class MainListVOAdapter extends TypeAdapter<MainListVO> {
+class MainListVOAdapter extends TypeAdapter<MainListBookSectionVO> {
   @override
   final int typeId = 3;
 
   @override
-  MainListVO read(BinaryReader reader) {
+  MainListBookSectionVO read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return MainListVO(
+    return MainListBookSectionVO(
       fields[0] as int?,
       fields[1] as String?,
       fields[2] as String?,
@@ -30,7 +30,7 @@ class MainListVOAdapter extends TypeAdapter<MainListVO> {
   }
 
   @override
-  void write(BinaryWriter writer, MainListVO obj) {
+  void write(BinaryWriter writer, MainListBookSectionVO obj) {
     writer
       ..writeByte(9)
       ..writeByte(0)
@@ -68,7 +68,9 @@ class MainListVOAdapter extends TypeAdapter<MainListVO> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-MainListVO _$MainListVOFromJson(Map<String, dynamic> json) => MainListVO(
+MainListBookSectionVO _$MainListBookSectionVOFromJson(
+        Map<String, dynamic> json) =>
+    MainListBookSectionVO(
       json['list_id'] as int?,
       json['list_name'] as String?,
       json['list_name_encoded'] as String?,
@@ -82,7 +84,8 @@ MainListVO _$MainListVOFromJson(Map<String, dynamic> json) => MainListVO(
           .toList(),
     );
 
-Map<String, dynamic> _$MainListVOToJson(MainListVO instance) =>
+Map<String, dynamic> _$MainListBookSectionVOToJson(
+        MainListBookSectionVO instance) =>
     <String, dynamic>{
       'list_id': instance.listId,
       'list_name': instance.listName,

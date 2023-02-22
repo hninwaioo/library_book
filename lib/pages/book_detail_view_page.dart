@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/progress_bar/gf_progress_bar.dart';
 import 'package:library_app/pages/book_ratings_and_reviews_view_page.dart';
 import 'package:library_app/resources/colors.dart';
 import '../blocs/provider_book_details_bloc.dart';
@@ -169,6 +170,7 @@ class BookDetailImageItemSectionView extends StatelessWidget {
               // mImageUrl: 'https://m.media-amazon.com/images/I/51EkeX9IfCL._SX323_BO1,204,203,200_.jpg',
             ),
           ),
+
           Container(
 
             width: MediaQuery.of(context).size.width/2.2,
@@ -227,7 +229,7 @@ class FreeSampleAddToWishListSectionView extends StatelessWidget {
               SizedBox(width: MARGIN_XLARGE,),
 
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2,vertical: MARGIN_MEDIUM),
+                padding: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_LARGE,vertical: MARGIN_MEDIUM),
                 decoration: BoxDecoration(
                     color: Colors.blue,
                     borderRadius: BorderRadius.circular(5.0)

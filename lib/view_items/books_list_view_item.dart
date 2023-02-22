@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:library_app/resources/colors.dart';
+import 'package:library_app/widgets/bottom_sheet_for_audiobook_view.dart';
 import 'package:library_app/widgets/typical_text.dart';
 
 import '../data/vos/book_vo.dart';
@@ -9,15 +10,26 @@ import 'banner_book_image_item_view.dart';
 
 class BooksListViewItem extends StatelessWidget {
 
-  BookVO dataBook;
-  final Function(BookVO bookVO) onTapBook;
-  BooksListViewItem({required this.dataBook, required this.onTapBook});
+  // BookVO dataBook;
+  // final Function(BookVO bookVO) onTapBook;
+  BookVO? book;
+  double marginInGridView;
+  bool? isThreeGrid;
+  Function(BookVO?) onTapBook;
+  Function(BookVO?) onTapSeeMore;
+
+  BooksListViewItem({
+    this.isThreeGrid = true,
+    required this.book,
+    required this.onTapBook,
+    required this.onTapSeeMore,
+    this.marginInGridView = 20,  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        onTapBook(dataBook);
+        onTapBook(book);
       },
       child: Container(
         width: 210,
@@ -25,6 +37,7 @@ class BooksListViewItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
             Stack(
               children: [
                 Positioned(
@@ -32,7 +45,7 @@ class BooksListViewItem extends StatelessWidget {
                         height: 190,
                         width: 150,
                         child: BannerBookImageItemView(
-                          mImageUrl: dataBook.bookImage,
+                          mImageUrl: book?.bookImage,
                           // 'https://m.media-amazon.com/images/I/51EkeX9IfCL._SX323_BO1,204,203,200_.jpg',
                         )
                     ),
@@ -45,13 +58,15 @@ class BooksListViewItem extends StatelessWidget {
                         showModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
-                              return Container(
-                                  child: BottomSheetForBookInLibraryView(
-                                    bookVO: dataBook,
-                                    onTapBookAddToShelf: (dataBook){
+                              return
+                                Container(
+                                  child: BottomSheetForAudioBookView(
+                                    mBookImage: book?.bookImage??"",
+                                    bookTitle: book?.title??"",
+                                    authorName: book?.author??"",
 
-                                    },
                                   )
+
                               );
                             }
                         );
@@ -79,10 +94,14 @@ class BooksListViewItem extends StatelessWidget {
                 // )
               ],
             ),
+
+            SizedBox(height: MARGIN_MEDIUM,),
+
+            TypicalText(book?.title??"", HINT_TEXT_COLOR, 16),
+
             SizedBox(height: MARGIN_SMALL,),
-            TypicalText(dataBook.title??"", HINT_TEXT_COLOR, 16),
-            SizedBox(height: MARGIN_SMALL,),
-            TypicalText(dataBook.author??"", HINT_TEXT_COLOR, TEXT_REGULAR),
+
+            TypicalText(book?.author??"", HINT_TEXT_COLOR, TEXT_REGULAR),
           ],
         ),
       ),

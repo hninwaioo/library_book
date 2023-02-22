@@ -204,10 +204,17 @@ class BooksListDetailSectionView extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return Container(
               child: BooksListViewItem(
-                dataBook: bookList[index],
-                onTapBook: (bookId){
+                // book: bookList[index],
+                // onTapBook: (bookId){
+                //   onTapBook(bookList[index]);
+                // },
+                onTapSeeMore: (book) {
                   onTapBook(bookList[index]);
-                },
+                  },
+                onTapBook: (book) {
+                  onTapBook(bookList[index]);
+                  },
+                book: bookList[index],
               ),
             );
           },

@@ -50,7 +50,7 @@ class WriterNameSectionView extends StatelessWidget {
           SizedBox(height: MARGIN_SMALL,),
 
           TypicalText(
-              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "Hard to buy the book for class, really convenient. This book is excellent book.",
               HINT_TEXT_COLOR,16),
         ],
       ),

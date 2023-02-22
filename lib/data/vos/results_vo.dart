@@ -39,7 +39,7 @@ class ResultsVO {
   //lists
   @JsonKey(name: "lists")
   @HiveField(5)
-  List<MainListVO>? lists;
+  List<MainListBookSectionVO>? lists;
 
   ResultsVO(
       this.bestsellersDate,

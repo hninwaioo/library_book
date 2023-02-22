@@ -27,3 +27,8 @@ const PROFILE_LOGOUT = "Logout";
 const SET_NOTIFICATION = "Set Notification";
 const TICKET_CANCELION_POLICY = "Ticket Cancelion Policy";
 const UNLOCK_PROMOCODE = "Unlock Offer and Apply Promocode";
+
+const String PLACE_HOLDER_ONE =
+    "https://raw.githubusercontent.com/julien-gargot/images-placeholder/master/placeholder-portrait.png";
+const String PLACE_HOLDER_TWO =
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png";

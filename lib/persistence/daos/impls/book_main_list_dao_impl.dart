@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:library_app/data/vos/book_vo.dart';
 
 import '../../../data/vos/main_list_vo.dart';
 import '../../hive_constants.dart';
@@ -14,21 +15,21 @@ class BookMainListDaoImpl extends BookMainListDao{
   }
   BookMainListDaoImpl._internal();
 
-  void savedAllBooksMainList(List<MainListVO> bookMainList)async{
-    Map<String, MainListVO> bookMainListMap = Map.fromIterable(bookMainList,
+  void savedAllBooksMainList(List<MainListBookSectionVO?>? bookMainList)async{
+    Map<String, MainListBookSectionVO> bookMainListMap = Map.fromIterable(bookMainList??[],
         key: (bookMain) => bookMain.listName, value: (bookMain) => bookMain);
     await getBookMainBox().putAll(bookMainListMap);
   }
 
-  void savedBookMainList(MainListVO bookCategory)async{
+  void savedBookMainList(MainListBookSectionVO bookCategory)async{
     return getBookMainBox().put(bookCategory.listName, bookCategory);
   }
 
-  List<MainListVO> getAllBooksMainList(){
+  List<MainListBookSectionVO> getAllBooksMainList(){
     return getBookMainBox().values.toList();
   }
 
- MainListVO? getSingleBookMainList(String listName){
+ MainListBookSectionVO? getSingleBookMainList(String listName){
     return getBookMainBox().get(listName);
   }
 
@@ -37,15 +38,15 @@ class BookMainListDaoImpl extends BookMainListDao{
     return getBookMainBox().watch();
   }
 
-  Stream<List<MainListVO>> getAllBookCategoriesStream(){
+  Stream<List<MainListBookSectionVO>> getAllBookCategoriesStream(){
     return Stream.value(getAllBooksMainList());
   }
 
-  Stream<MainListVO?> getSingleBookMainListStream(String listName){
+  Stream<MainListBookSectionVO?> getSingleBookMainListStream(String listName){
     return Stream.value(getSingleBookMainList(listName));
   }
 
-  List<MainListVO> getAllBookMainList(){
+  List<MainListBookSectionVO> getAllBookMainList(){
     if(getAllBooksMainList().isNotEmpty){
       return getAllBooksMainList();
     }else{
@@ -53,7 +54,7 @@ class BookMainListDaoImpl extends BookMainListDao{
     }
   }
 
-  MainListVO? getBookMainList(String listName){
+  MainListBookSectionVO? getBookMainList(String listName){
     if(getSingleBookMainList(listName) !=null){
       return getSingleBookMainList(listName);
     }else{
@@ -62,14 +63,19 @@ class BookMainListDaoImpl extends BookMainListDao{
   }
 
 
-  Box<MainListVO> getBookMainBox() {
-    return Hive.box<MainListVO>(BOX_NAME_MAIN_LIST_VO);
+  Box<MainListBookSectionVO> getBookMainBox() {
+    return Hive.box<MainListBookSectionVO>(BOX_NAME_MAIN_LIST_VO);
   }
 
   @override
-  Stream<List<MainListVO>> getAllBooksMainListStream() {
+  Stream<List<MainListBookSectionVO>> getAllBooksMainListStream() {
     return Stream.value(getAllBooksMainList());
 
+  }
+
+  @override
+  void saveAllBooks(List<BookVO?>? bookList) {
+    // TODO: implement saveAllBooks
   }
 
 }

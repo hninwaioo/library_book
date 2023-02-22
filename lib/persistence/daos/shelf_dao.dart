@@ -2,7 +2,7 @@ import '../../data/vos/shelf_vo.dart';
 
 abstract class ShelfDao {
 
-  void saveAllShelves(List<ShelfVO>? shelfList);
+  void saveAllShelves(List<ShelfVO?>? shelfList);
   void saveSingleShelf(ShelfVO? shelf);
   void deleteShelf(String? shelfName);
   List<ShelfVO>? getAllShelves();

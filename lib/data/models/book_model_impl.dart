@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:library_app/data/vos/book_vo.dart';
 import 'package:library_app/data/vos/main_list_vo.dart';
-import 'package:library_app/data/vos/results_vo.dart';
 import 'package:library_app/data/vos/shelf_vo.dart';
 import 'package:library_app/persistence/daos/impls/shelf_dao_impl.dart';
 import '../../network/book_data_agent.dart';
@@ -16,7 +15,7 @@ import 'book_model.dart';
 
 class BookModelImpl extends BookModel {
 
-  BookDataAgent mDataAgent = RetrofitDataAgentImpl();
+  BookDataAgent mBookDataAgent = RetrofitDataAgentImpl();
 
   static final BookModelImpl _singleton = BookModelImpl._internal();
 
@@ -44,23 +43,69 @@ class BookModelImpl extends BookModel {
   //   });
   // }
 
+  ///  Book Sections Network
   @override
-  Future<ResultsVO?> getOverviewBooks() {
-    return mDataAgent.getOverviewBooks().then((mainList) async {
-          List<MainListVO>? mainListBook = mainList?.lists?.map((main_list){
-            return main_list;
-          }).toList();
-          mBookMainListDao.savedAllBooksMainList(mainListBook??[]);
-          mBookMainListDao.savedBookMainList(mainListBook??[].first);
-      return Future.value(mainList);
+  void getBookSectionNetwork(String publishDate) {
+    mBookDataAgent.getOverviewBooks(publishDate).then((bookSections) async {
+      List<MainListBookSectionVO?>? bookSectionList = bookSections?.map((section) {
+        section?.books?.map((book) {
+          book?.listName = section.listName;
+          return book;
+        }).toList();
+        return section;
+      }).toList();
+      mBookMainListDao.savedAllBooksMainList(bookSectionList);
     });
   }
 
+  // @override
+  // void getBookSectionNetwork() {
+  //   mDataAgent.getOverviewBooks().then((bookSections) async {
+  //     List<MainListBookSectionVO?>? bookSectionList = bookSections?.map((section) {
+  //       section?.books?.map((book) {
+  //         book.listName = section.listName;
+  //         return book;
+  //       }).toList();
+  //       return section;
+  //     }).toList();
+  //     mBookMainListDao.savedAllBooksMainList(bookSectionList);
+  //   });
+  // }
+
+  // @override
+  // Future<ResultsVO?> getOverviewBooks() {
+  //   return mDataAgent.getOverviewBooks().then((mainList) async {
+  //         List<MainListVO>? mainListBook = mainList?.lists?.map((main_list){
+  //           return main_list;
+  //         }).toList();
+  //         mBookMainListDao.savedAllBooksMainList(mainListBook??[]);
+  //         mBookMainListDao.savedBookMainList(mainListBook??[].first);
+  //     return Future.value(mainList);
+  //   });
+  // }
+
+  ///  Books by listName Network
+  @override
+  void getBooksByListNameNetwork(String listName) {
+    mBookDataAgent.getBooksByListName(listName).then((bookSections) async {
+      List<MainListBookSectionVO?>? bookSectionList = bookSections?.map((section) {
+        List<BookVO?>? bookList = section?.books?.map((book) {
+          book.listName = section.listName;
+          return book;
+        }).toList();
+        mBookDao.savedAllBooks(bookList??[]);
+        print(bookList.toString());
+        return section;
+      }).toList();
+    });
+  }
+
+
   @override
   Future<List<BookVO>?> getSearchGoogleBookList(String searchBookName){
-    return mDataAgent.getBookListFromGoogle(searchBookName).then((googleBookList){
+    return mBookDataAgent.getBookListFromGoogle(searchBookName).then((googleBookList){
       List<BookVO>? bookList = googleBookList?.map((googleBookVO) => googleBookVO.convertToBookVO(searchBookName)).toList();
-      MainListVO mainListVO  = MainListVO(0, "","", "","","", "", "", []);
+      MainListBookSectionVO mainListVO  = MainListBookSectionVO(0, "","", "","","", "", "", []);
       mainListVO.listName = searchBookName;
       mainListVO.books = bookList;
       mBookMainListDao.savedBookMainList(mainListVO);
@@ -70,11 +115,22 @@ class BookModelImpl extends BookModel {
 
   /// Database
 
+  // @override
+  // Stream<List<BookSectionVO?>?> getBookSectionDataBase() {
+  //   getBookSectionNetwork("");
+  //   return bookSectionDao
+  //       .getAllBookSectionsEventStream()
+  //       .startWith(bookSectionDao.getAllBooksSectionsStream())
+  //       .map((event) => bookSectionDao.getAllBookSections());
+  // }
+
   @override
-  Stream<List<MainListVO>?> getOverviewBooksFromDatabase() {
-    getOverviewBooks().then((books) async {
-      mBookMainListDao.savedAllBooksMainList(books?.lists??[]);
-    });
+  Stream<List<MainListBookSectionVO>?> getOverviewBooksFromDatabase() {
+    // getOverviewBooks().then((books) async {
+    //   mBookMainListDao.savedAllBooksMainList(books?.lists??[]);
+    // });
+    getBookSectionNetwork("");
+
     return mBookMainListDao
         .getAllBookMainListEventStream()
         .startWith(mBookMainListDao.getAllBooksMainListStream())
@@ -82,7 +138,7 @@ class BookModelImpl extends BookModel {
   }
 
   @override
-  Stream<MainListVO?>? getSingleBookOverviewFromDatabase(String listName) {
+  Stream<MainListBookSectionVO?>? getSingleBookOverviewFromDatabase(String listName) {
     getOverviewBooksFromDatabase();
     return mBookMainListDao
         .getAllBookMainListEventStream()
@@ -169,7 +225,7 @@ class BookModelImpl extends BookModel {
 
   /// Shelves
   @override
-  void saveAllShelves(List<ShelfVO>? shelfList) {
+  void saveAllShelves(List<ShelfVO?>? shelfList) {
     mShelfDao.saveAllShelves(shelfList);
   }
 
@@ -199,6 +255,7 @@ class BookModelImpl extends BookModel {
         .startWith(mShelfDao.getAllShelvesStream())
         .map((event) => mShelfDao.getAllShelves());
   }
+
 
   // @override
   // void saveBookToDatabase(BookVO bookVO) {

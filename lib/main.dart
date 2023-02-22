@@ -54,7 +54,7 @@ Future<void> main() async {
   Hive.registerAdapter(ShelfVOAdapter());
 
 
-  await Hive.openBox<MainListVO>(BOX_NAME_MAIN_LIST_VO);
+  await Hive.openBox<MainListBookSectionVO>(BOX_NAME_MAIN_LIST_VO);
   await Hive.openBox<BookVO>(BOX_NAME_BOOK_VO);
   await Hive.openBox<ShelfVO>(BOX_NAME_SHELF_VO);
 

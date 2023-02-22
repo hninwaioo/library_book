@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/pages/books_type_list_detail_view_page.dart';
+import 'package:library_app/widgets/icon_action_section_view.dart';
 import '../blocs/provider_home_bloc.dart';
 import '../data/vos/book_vo.dart';
 import '../data/vos/main_list_vo.dart';
@@ -12,7 +13,6 @@ import '../resources/strings.dart';
 import '../view_items/books_list_view_item.dart';
 import '../widgets/book_type_list_view.dart';
 import 'package:provider/provider.dart';
-
 import 'book_detail_view_page.dart';
 
 //5c86AggYSPy1M3S0qxcdig1RMa0Sn97r
@@ -22,6 +22,14 @@ class BooksViewPage extends StatefulWidget {
 }
 
 class _BooksViewPageState extends State<BooksViewPage> {
+
+  @override
+  void dispose() {
+    var bloc = Provider.of<ProviderHomeBloc>(context, listen: false);
+    bloc.isDispose = true;
+    super.dispose();
+  }
+
   get prefixIcon => null;
 
   List<String> genreList = [
@@ -37,7 +45,6 @@ class _BooksViewPageState extends State<BooksViewPage> {
     super.initState();
     chooseEbookORAudioBook = "EBOOK";
     _audioVisible = false;
-
   }
 
   void _getEbooksOrAudioBook(int index) {
@@ -65,7 +72,7 @@ class _BooksViewPageState extends State<BooksViewPage> {
                   SizedBox(height: MARGIN_MEDIUM_2,),
 
                   Selector<ProviderHomeBloc,List<BookVO>?>(
-                    selector: (context,bloc) => bloc.mBookListFromDatabase,
+                    selector: (context,bloc) => bloc.mBookList,
                     builder: (context, booksList, child) =>
                         BannerBooksSectionView(
                           bannerList: booksList?.map((e) => e.bookImage).toList()??[],
@@ -82,12 +89,12 @@ class _BooksViewPageState extends State<BooksViewPage> {
                         }
                     ),
 
-                  Selector<ProviderHomeBloc,List<MainListVO>?>(
-                    selector: (context,bloc) => bloc.mMainList,
+                  Selector<ProviderHomeBloc,List<MainListBookSectionVO>?>(
+                    selector: (context,bloc) => bloc.mBookSectionList,
                     builder: (context, mainListBooks, child) =>
                           ListView.builder(
                             shrinkWrap: true,
-                            itemCount: mainListBooks?.length,
+                            itemCount:mainListBooks?.length,
                             physics: NeverScrollableScrollPhysics(),
                             itemBuilder: (BuildContext context, int index) {
                               return
@@ -185,6 +192,7 @@ class SearchBooksSectionView extends StatelessWidget {
                       leadingDistribution: TextLeadingDistribution.even,
                       color: HINT_TEXT_COLOR
                   ),
+                  enabled: false
                 ),
                 textAlign: TextAlign.start,
               ),
@@ -198,7 +206,11 @@ class SearchBooksSectionView extends StatelessWidget {
 class BannerBooksSectionView extends StatefulWidget {
 
   List<String?> bannerList;
-  BannerBooksSectionView({required this.bannerList});
+  // BookVO? bookVO;
+  BannerBooksSectionView({
+    required this.bannerList,
+    // required this.bookVO
+  });
 
   @override
   State<BannerBooksSectionView> createState() => _BannerBooksSectionViewState();
@@ -217,45 +229,27 @@ class _BannerBooksSectionViewState extends State<BannerBooksSectionView> {
             margin: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM),
 
             height: MediaQuery.of(context).size.height/3.5,
-            child:
-
-            // PageView(
-            //     pageSnapping: true,
-            //     dragStartBehavior : DragStartBehavior.start,
-            //     clipBehavior : Clip.antiAlias,
-            //     onPageChanged: (page){
-            //       setState((){
-            //         _position = page.toDouble();
-            //       });
-            //     },
-            //     children: widget.bannerList.map((bannerBook) => BannerBookImageView(
-            //       // bannerVO: bannerMovies,
-            //       mImageUrl: bannerBook,
-            //     ))
-            //         .toList() ?? []
-            // ),
-
-            CarouselSlider(
+            child: CarouselSlider(
               options: CarouselOptions(
-                height: 450.0,
+                height: 500.0,
                 enableInfiniteScroll: false,
-                viewportFraction: 0.4,
+                viewportFraction: 0.5,
                 enlargeCenterPage: true,
                 initialPage: 0,
                 disableCenter: false,
-                aspectRatio: 2.1,
+                aspectRatio: 14/7,
+                enlargeStrategy: CenterPageEnlargeStrategy.scale,
+
               ),
               items: widget.bannerList.map((item) {
                 return Builder(
                   builder: (BuildContext context) {
                     return
                       Column(
-                        // width: MediaQuery.of(context).size.width,
-                        // margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        // decoration: BoxDecoration(
-                        //     color: Colors.amber
-                        // ),
-                        children: [ BannerBookImageView(
+
+                        children: [
+                          BannerBookImageView(
+                            // bookVO: widget.bookVO,
                             mImageUrl: item,
                           )
                               // .toList() ?? []
@@ -275,22 +269,57 @@ class _BannerBooksSectionViewState extends State<BannerBooksSectionView> {
 
 class BannerBookImageView extends StatelessWidget {
 
+  // BookVO? bookVO;
   String? mImageUrl;
-  BannerBookImageView({required this.mImageUrl});
+  BannerBookImageView({required this.mImageUrl,
+    // required this.bookVO
+  });
 
   @override
   Widget build(BuildContext context) {
     return
-      ClipRRect(
+      Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              boxShadow: [
+                BoxShadow(
+                  spreadRadius: 1,
+                  color: Colors.black54,
+                  offset: Offset(0, 5),
+                  blurRadius: 20,
+                  blurStyle: BlurStyle.normal,
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(
+                Radius.circular(8),
+              ),
+              child: Image.network(
+                mImageUrl??"",
+                fit: BoxFit.fill,
+                width: 150,
+                height: 200,
+              ),
+            ),
+          ),
 
-          borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10),bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),
-          child:  Image.network(
-            // "https://d1sag4ddilekf6.azureedge.net/compressed/merchants/9-CY32EB2ETB43WA/hero/1f901883836148bf8a9150277b6e7967_1658064288904088500.jpeg",
-            mImageUrl??"",
-            height: 180,
-            width: 150,
-            fit:BoxFit.cover,
+          Positioned(
+            child: Icon(Icons.more_horiz_rounded, color: Colors.white,size: 30,),
+            right: 10,
+            top: 10,
+          ),
+
+          Positioned(
+              right: 10,
+              bottom: 20,
+              child: IconActionSectionView(
+                  iconAction: Icons.save_alt_rounded
+              )
           )
+        ],
       );
   }
 }
@@ -365,7 +394,7 @@ class BookTypeGenreSectionView extends StatelessWidget {
 
 class TitleAndBooksListSectionView extends StatelessWidget {
 
-  MainListVO? mainListVO;
+  MainListBookSectionVO? mainListVO;
   Function onTapBooksList;
   TitleAndBooksListSectionView({required this.mainListVO,required this.onTapBooksList});
 
@@ -375,42 +404,43 @@ class TitleAndBooksListSectionView extends StatelessWidget {
        Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          // GestureDetector(
-          //   onTap: () {
-          //     // _navigateToBooksTypeListDetailScreen(context,mainListBooks![index]);
-          //     onTapBooksList();
-          //   },
-          //   child: Container(
-          //       margin: EdgeInsets.symmetric(
-          //           horizontal: MARGIN_MEDIUM_LARGE,
-          //           vertical: MARGIN_MEDIUM_2),
-          //       child: BookTypeListView(
-          //         bookTypes: mainListVO?.listName??"",
-          //       )
-          //   ),
-          // ),
-          // ListView.builder(
-          //     itemCount: 1,
-          //     // mainListVO?.books?.length,
-          //     physics: NeverScrollableScrollPhysics(),
-          //     shrinkWrap: true,
-          //     itemBuilder: (BuildContext context, int index) {
-          //       return BooksListHorizontalSectionView(
-          //         booksList: mainListVO?.books??[],
-          //       );
-          //     }),
-
-          ListView.separated(
-            shrinkWrap: true,
-            itemCount: 1,
-            physics: NeverScrollableScrollPhysics(),
-            separatorBuilder: (_, __) => const Divider(),
-            itemBuilder: (context, int index) {
-                    return BooksListHorizontalSectionView(
-                      booksList: mainListVO?.books??[],
-                    );
+          GestureDetector(
+            onTap: () {
+              // _navigateToBooksTypeListDetailScreen(context,mainListBooks![index]);
+              onTapBooksList();
             },
+            child: Container(
+                margin: EdgeInsets.symmetric(
+                    horizontal: MARGIN_MEDIUM_LARGE,
+                    vertical: MARGIN_MEDIUM_2),
+                child: BookTypeListView(
+                  bookTypes: mainListVO?.listName??"",
+                )
+            ),
           ),
+          SizedBox(height: MARGIN_MEDIUM_2,),
+          ListView.builder(
+              itemCount: 1,
+              // mainListVO?.books?.length,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return BooksListHorizontalSectionView(
+                  booksList: mainListVO?.books??[],
+                );
+              }),
+
+          // ListView.separated(
+          //   shrinkWrap: true,
+          //   itemCount: 1,
+          //   physics: NeverScrollableScrollPhysics(),
+          //   separatorBuilder: (_, __) => const Divider(),
+          //   itemBuilder: (context, int index) {
+          //           return BooksListHorizontalSectionView(
+          //             booksList: mainListVO?.books??[],
+          //           );
+          //   },
+          // ),
         ],
     );
   }
@@ -428,17 +458,22 @@ class BooksListHorizontalSectionView extends StatelessWidget {
   Widget build(BuildContext context) {
     return
         Container(
-            margin: EdgeInsets.only(left: MARGIN_MEDIUM_2),
-            height: MOVIE_LIST_HEIGHT,
+            margin: EdgeInsets.only(left: MARGIN_MEDIUM),
+            height: BOOK_LIST_HEIGHT,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.only(right: MARGIN_MEDIUM_LARGE),
+                padding: EdgeInsets.only(right: MARGIN_MEDIUM),
                 itemCount: booksList.length,
+                physics: const BouncingScrollPhysics(),
+                itemExtent:  200,
                 itemBuilder:(BuildContext context, int index){
                   return BooksListViewItem(
-                    dataBook: booksList[index],
+                    book: booksList[index],
+                    onTapSeeMore: (book){
+
+                    },
                     onTapBook: (book){
-                      SelectedBook(book);
+                      SelectedBook(book!);
                       var addBookToLibrary = AddBookToLibrary();
                       addBookToLibrary.addBook(SelectedBook(book));
                       var bloc = Provider.of<ProviderHomeBloc>(context,
@@ -453,8 +488,6 @@ class BooksListHorizontalSectionView extends StatelessWidget {
                         // booksList[index].listName??"",
                         // booksList[index].title??"",
                         // booksList[index].openedDate??""
-
-
 
                     );
                   },

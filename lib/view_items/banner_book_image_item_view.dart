@@ -13,7 +13,7 @@ class BannerBookImageItemView extends StatelessWidget {
           child:  Image.network(
             // "https://d1sag4ddilekf6.azureedge.net/compressed/merchants/9-CY32EB2ETB43WA/hero/1f901883836148bf8a9150277b6e7967_1658064288904088500.jpeg",
             mImageUrl??"",
-            fit:BoxFit.cover,
+            fit:BoxFit.fill,
           )
       );
   }

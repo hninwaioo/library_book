@@ -6,18 +6,32 @@ import '../resources/colors.dart';
 import 'bottom_sheet_for_book_in_library_view.dart';
 
 class BottomSheetForAudioBookView extends StatelessWidget {
-  const BottomSheetForAudioBookView({Key? key}) : super(key: key);
+  String mBookImage;
+  String bookTitle;
+  String authorName;
 
+  BottomSheetForAudioBookView({
+    required this.mBookImage,
+    required this.bookTitle,
+    required this.authorName
+  });
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 350,
       child: Column(
         children: [
-          BottomSheetBookImageView(
-            mBookImage: "https://m.media-amazon.com/images/I/51EkeX9IfCL._SX323_BO1,204,203,200_.jpg",
-            bookTitle: "UI: Design Book",
-            authorName: "John . AudioBook",
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_LARGE, vertical: MARGIN_MEDIUM_LARGE),
+
+            child: BottomSheetBookImageView(
+              mBookImage: mBookImage,
+              // "https://m.media-amazon.com/images/I/51EkeX9IfCL._SX323_BO1,204,203,200_.jpg",
+              bookTitle: bookTitle,
+              authorName: authorName,
+            ),
           ),
+          Divider(color: Colors.grey,),
           BottomSheetAudiobookItemsView()
         ],
       ),
@@ -30,6 +44,7 @@ class BottomSheetAudiobookItemsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_LARGE, vertical: MARGIN_MEDIUM_LARGE),
 
         child: Column(
           children: [
@@ -41,6 +56,7 @@ class BottomSheetAudiobookItemsView extends StatelessWidget {
               ],
             ),
 
+            SizedBox(height: MARGIN_MEDIUM,),
             Row(
               children: [
                 Icon(Icons.bookmark_add_sharp),
@@ -48,6 +64,7 @@ class BottomSheetAudiobookItemsView extends StatelessWidget {
                 TypicalText("Add to wishList", HINT_TEXT_COLOR, 16)
               ],
             ),
+            SizedBox(height: MARGIN_MEDIUM,),
 
             Row(
               children: [

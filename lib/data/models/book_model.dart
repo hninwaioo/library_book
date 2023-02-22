@@ -6,15 +6,20 @@ import '../vos/results_vo.dart';
 import '../vos/shelf_vo.dart';
 
 abstract class BookModel extends Model {
+
+  // Future<ResultsVO?> getOverviewBooks();
+  // void getBookSectionNetwork();
   /// Network
-  Future<ResultsVO?> getOverviewBooks();
-// void getNowPlayingMovies(int page);
+  void getBookSectionNetwork(String publishDate);
+  void getBooksByListNameNetwork(String listName);
   Future<List<BookVO>?> getSearchGoogleBookList(String searchBookName);
 
 
   /// DataBase
-  Stream<List<MainListVO>?> getOverviewBooksFromDatabase();
-  Stream<MainListVO?>? getSingleBookOverviewFromDatabase(String listName);
+  //   Stream<List<BookSectionVO?>?> getBookSectionDataBase();
+  Stream<List<MainListBookSectionVO>?>? getOverviewBooksFromDatabase();
+
+  Stream<MainListBookSectionVO?>? getSingleBookOverviewFromDatabase(String listName);
   // void saveBookToDatabase(String listName,String title,String openedDate);
   void saveBookToDatabase(String listName,String title,
       String openedDate
@@ -28,7 +33,7 @@ abstract class BookModel extends Model {
 
   Stream<List<ShelfVO>?> getShelvesDatabase();
   Stream<ShelfVO?> getSingleShelfStream(String? shelfName);
-  void saveAllShelves(List<ShelfVO>? shelfList);
+  void saveAllShelves(List<ShelfVO?>? shelfList);
   void saveSingleShelf(ShelfVO? shelf);
   void deleteShelf(String? shelfName);
 

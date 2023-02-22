@@ -65,7 +65,7 @@ class _BookAddIntoShelfViewPageState extends State<BookAddIntoShelfViewPage> {
                   BookVO? selectedBook = booksInShelf?.firstWhere(
                           (element) => element.title == widget.book.title);
 
-                return ShelvesListItemView(
+                return CheckBoxOrArrowWithBookImageAndNameView(
                   bloc: bloc,
                   onTapArrow: (e) {},
                   visibleArrow: false,

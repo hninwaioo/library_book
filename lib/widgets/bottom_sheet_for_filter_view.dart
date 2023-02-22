@@ -3,32 +3,54 @@ import 'package:library_app/resources/colors.dart';
 import 'package:library_app/resources/dimens.dart';
 import 'package:library_app/widgets/typical_text.dart';
 
-class BottomSheetForFilterView extends StatefulWidget {
+class BottomSheetForFilterView extends StatelessWidget {
 
-  String? selectedByRecent;
-  String? selectedByBookTitle;
-  String? selectedByAuthor;
-  Function(String?) onSelectedFilterByRecent;
-  Function(String?) onSelectedFilterByBookTitle;
-  Function(String?) onSelectedFilterByAuthor;
+//   String? selectedByRecent;
+//   String? selectedByBookTitle;
+//   String? selectedByAuthor;
+//   Function(String?) onSelectedFilterByRecent;
+//   Function(String?) onSelectedFilterByBookTitle;
+//   Function(String?) onSelectedFilterByAuthor;
+//
+//   String? filterType;
+//
+//   BottomSheetForFilterView({
+//     required this.onSelectedFilterByRecent,
+//     required this.onSelectedFilterByBookTitle,
+//     required this.onSelectedFilterByAuthor,
+//     required this.filterType,
+//     required this.selectedByRecent,
+//     required this.selectedByBookTitle,
+//     required this.selectedByAuthor,
+// });
 
-  String? filterType;
+  // String textByRecent;
+  // String textByBookTitle;
+  // String textByAuthor;
+
+  int? valueRecent;
+  int? valueBookTitle;
+  int? valueAuthor;
+
+  Function(int?) onSelectedFilterByRecent;
+  Function(int?) onSelectedFilterByBookTitle;
+  Function(int?) onSelectedFilterByAuthor;
+
+  int? groupValue;
 
   BottomSheetForFilterView({
+    // required this.textByRecent,
+    // required this.textByBookTitle,
+    // required this.textByAuthor,
     required this.onSelectedFilterByRecent,
     required this.onSelectedFilterByBookTitle,
     required this.onSelectedFilterByAuthor,
-    required this.filterType,
-    required this.selectedByRecent,
-    required this.selectedByBookTitle,
-    required this.selectedByAuthor,
-});
+    this.groupValue = 0,
+    required this.valueRecent,
+    required this.valueBookTitle,
+    required this.valueAuthor,
+  });
 
-  @override
-  State<BottomSheetForFilterView> createState() => _BottomSheetForFilterViewState();
-}
-
-class _BottomSheetForFilterViewState extends State<BottomSheetForFilterView> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,45 +69,112 @@ class _BottomSheetForFilterViewState extends State<BottomSheetForFilterView> {
             SizedBox(height: MARGIN_MEDIUM_2,),
 
             Container(
+
+              // child: Column(
+              //   children: [
+              //     RadioListTile(
+              //       title: Text("Recently opened"),
+              //       value: "REC_OPEN",
+              //       groupValue: widget.filterType,
+              //       onChanged: (value){
+              //         widget.onSelectedFilterByRecent("REC_OPEN");
+              //         setState(() {
+              //           widget.selectedByRecent = value.toString();
+              //           debugPrint("Sheet=>RecentOpened");
+              //         });
+              //       },
+              //     ),
+              //     RadioListTile(
+              //       title: Text("Title"),
+              //       value: "TITLE",
+              //       groupValue: widget.filterType,
+              //       onChanged: (value){
+              //         widget.onSelectedFilterByBookTitle("TITLE");
+              //         setState(() {
+              //           widget.selectedByBookTitle = value.toString();
+              //           debugPrint("Sheet=>TITLE");
+              //
+              //         });
+              //       },
+              //     ),
+              //     RadioListTile(
+              //       title: Text("Author"),
+              //       value: "AUTHOR",
+              //       groupValue: widget.filterType,
+              //       onChanged: (value){
+              //         widget.onSelectedFilterByAuthor("AUTHOR");
+              //         setState(() {
+              //           widget.selectedByAuthor = value.toString();
+              //           debugPrint("Sheet=>AUTHOR");
+              //
+              //         });
+              //       },
+              //     ),
+              //   ],
+              // ),
+
               child: Column(
-                children: [
-                  RadioListTile(
-                    title: Text("Recently opened"),
-                    value: "REC_OPEN",
-                    groupValue: widget.filterType,
-                    onChanged: (value){
-                      widget.onSelectedFilterByRecent("REC_OPEN");
-                      setState(() {
-                        widget.selectedByRecent = value.toString();
-                        debugPrint("Sheet=>RecentOpened");
-                      });
-                    },
+                children:<Widget> [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Radio<int?>(
+                          value: valueRecent,
+                          groupValue: groupValue,
+                          onChanged: (selectedValue) {
+                            onSelectedFilterByRecent(selectedValue);
+                          }
+                          // onChanged: (index) => onSelectedFilterByRecent(index)
+                          ),
+                      Text(
+                        "Recently opened",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      )
+                    ],
                   ),
-                  RadioListTile(
-                    title: Text("Title"),
-                    value: "TITLE",
-                    groupValue: widget.filterType,
-                    onChanged: (value){
-                      widget.onSelectedFilterByBookTitle("TITLE");
-                      setState(() {
-                        widget.selectedByBookTitle = value.toString();
-                        debugPrint("Sheet=>TITLE");
 
-                      });
-                    },
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Radio<int?>(
+                          value: valueBookTitle,
+                          groupValue: groupValue,
+                          onChanged: (selectedValue) {
+                            onSelectedFilterByBookTitle(selectedValue);
+                          }),
+
+                      Text(
+                        "Title",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      )
+                    ],
                   ),
-                  RadioListTile(
-                    title: Text("Author"),
-                    value: "AUTHOR",
-                    groupValue: widget.filterType,
-                    onChanged: (value){
-                      widget.onSelectedFilterByAuthor("AUTHOR");
-                      setState(() {
-                        widget.selectedByAuthor = value.toString();
-                        debugPrint("Sheet=>AUTHOR");
-
-                      });
-                    },
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Radio<int?>(
+                          value: valueAuthor,
+                          groupValue: groupValue,
+                          onChanged: (selectedValue) {
+                            onSelectedFilterByAuthor(selectedValue);
+                          }),
+                      Text(
+                        "Author",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),
