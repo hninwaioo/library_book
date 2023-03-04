@@ -4,7 +4,6 @@ import '../resources/dimens.dart';
 class BookImageItemView extends StatelessWidget {
   final String movies_image;
   BookImageItemView(this.movies_image);
-
   @override
   Widget build(BuildContext context) {
     return ClipRRect(

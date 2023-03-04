@@ -5,10 +5,9 @@ import 'package:library_app/widgets/typical_text.dart';
 import 'package:provider/provider.dart';
 import '../data/vos/book_vo.dart';
 import '../resources/dimens.dart';
-import '../widgets/bottom_sheet_for_book_in_library_view.dart';
+import '../widgets/bottom_sheet_book_image_view.dart';
 import 'book_detail_view_page.dart';
 import 'books_view_page.dart';
-
 
 class SearchGoogleBookViewPage extends StatefulWidget {
   const SearchGoogleBookViewPage({Key? key}) : super(key: key);
@@ -69,6 +68,7 @@ class _SearchGoogleBookViewPageState extends State<SearchGoogleBookViewPage> {
               color: PRIMARY_HINT_COLOR,
             ),
           ),
+          centerTitle: true,
           title: Selector<ProviderSearchGoogleBookBloc,List<BookVO>>(
             selector: (context, bloc) => bloc.bookList ?? [],
             builder: (context, shelves, child) => TextField(
@@ -97,20 +97,19 @@ class _SearchGoogleBookViewPageState extends State<SearchGoogleBookViewPage> {
           actions: [
             Visibility(
               visible: _seeAction,
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    TextEditingController().clear();
-                    _seeAction = false;
-                    _textController.clear();
-                  });
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(right: MARGIN_MEDIUM_2),
+              child: Padding(
+                padding: const EdgeInsets.only(right: MARGIN_MEDIUM_2),
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      TextEditingController().clear();
+                      _seeAction = false;
+                      _textController.clear();
+                    });
+                  },
                   child: Icon(
                     Icons.close,
-                  color: PRIMARY_HINT_COLOR,)
-                  
+                    color: PRIMARY_HINT_COLOR,)
                 ),
               ),
             )

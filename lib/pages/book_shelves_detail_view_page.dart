@@ -3,143 +3,10 @@ import 'package:library_app/blocs/provider_shelf_detail_bloc.dart';
 import 'package:library_app/data/vos/book_vo.dart';
 import 'package:library_app/data/vos/main_list_vo.dart';
 import 'package:library_app/data/vos/shelf_vo.dart';
-import 'package:library_app/persistence/add_data/add_book_to_library.dart';
 import 'package:library_app/persistence/add_data/create_new_shelf.dart';
 import 'package:library_app/widgets/sorting_books_list_view.dart';
-import 'package:library_app/widgets/typical_text.dart';
-import '../resources/colors.dart';
 import '../resources/dimens.dart';
-import '../widgets/bottom_sheet_for_shelves_view.dart';
-import '../widgets/sort_books_list_view.dart';
 import 'package:provider/provider.dart';
-
-class BookShelvesDetailViewPage extends StatelessWidget {
-  const BookShelvesDetailViewPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: PRIMARY_COLOR,
-        leading: GestureDetector(
-          onTap: (){
-            Navigator.pop(context);
-          },
-            child: Icon(Icons.arrow_back_ios_sharp,color: HINT_TEXT_COLOR,)
-        ),
-
-        actions: [
-          GestureDetector(
-            onTap: (){
-              showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Container(
-                        height: 300,
-                        child: BottomSheetForShelvesView()
-                    );
-                  }
-              );
-            },
-              child: Icon(Icons.keyboard_control_rounded,color: HINT_TEXT_COLOR,size: 30,)
-          ),
-          SizedBox(width: MARGIN_MEDIUM_2,)
-        ],
-
-        // actions: [
-        //
-        //   GestureDetector(
-        //     onTap: (){
-        //       showModalBottomSheet(
-        //           context: context,
-        //           builder: (BuildContext context) {
-        //             return Container(
-        //                 height: 300,
-        //                 child: BottomSheetForShelvesView()
-        //             );
-        //           }
-        //       );
-        //     },
-        //       child: Padding(
-        //         padding: EdgeInsets.all(20),
-        //           child: Icon(Icons.keyboard_control_rounded,color: HINT_TEXT_COLOR,size: 30,))
-        //   ),
-        //   SizedBox(width: MARGIN_MEDIUM_2,)
-        // ],
-
-      ),
-
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: MARGIN_MEDIUM_2,),
-
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2,vertical: MARGIN_MEDIUM_2),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TypicalText("10 Design Books", Colors.black, TEXT_REGULAR_2x,isFontWeight: true,),
-                  SizedBox(height: MARGIN_MEDIUM,),
-                  TypicalText("3 books", HINT_TEXT_COLOR, TEXT_REGULAR),
-                ],
-              ),
-            ),
-
-            SizedBox(height: MARGIN_MEDIUM_2,),
-            Divider(color: HINT_TEXT_COLOR,height: 0.1,),
-
-            Container(
-              width: MediaQuery.of(context).size.width/1.8,
-              padding: EdgeInsets.all(MARGIN_MEDIUM_2),
-              margin: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2,vertical: MARGIN_MEDIUM_LARGE),
-              decoration: BoxDecoration(
-                  border: Border.all(color: HINT_TEXT_COLOR),
-                  borderRadius: BorderRadius.circular(25.0)
-              ),
-              child: IntrinsicHeight(
-                
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    TypicalText("Not started", HINT_TEXT_COLOR, TEXT_REGULAR),
-                    VerticalDivider(
-                      color: HINT_TEXT_COLOR,
-                      thickness: 1,
-                    ),
-                    TypicalText("In progress", HINT_TEXT_COLOR, TEXT_REGULAR)
-                  ],
-                ),
-              ),
-            ),
-
-            // SortBooksListView()
-
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // SortByRecentBookSectionView(),
-                SizedBox(height: MARGIN_MEDIUM_2,),
-
-                Container(
-                  child: ListView(
-                    physics: NeverScrollableScrollPhysics(), // <– this will disable scroll.
-                    shrinkWrap: true,
-                    children: [
-                      // ChooseVerticalListBookSectionView()
-                    ],
-                  ),
-                ),
-                SizedBox(height: MARGIN_MEDIUM_2,),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class BookShelvesDetailPage extends StatefulWidget {
   String? nameToRemoveShelf;
@@ -184,7 +51,7 @@ class _BookShelvesDetailPageState extends State<BookShelvesDetailPage> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.white70,
           leading: GestureDetector(
             onTap: ()  {
               Navigator.pop(context,true);
@@ -200,70 +67,72 @@ class _BookShelvesDetailPageState extends State<BookShelvesDetailPage> {
               selector: (context, bloc) => bloc.shelf,
               builder: (context, shelfFromBloc, child) {
                 var bloc = Provider.of<ProviderShelfDetailBloc>(context, listen: false);
-                return GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet(
-                        constraints: BoxConstraints(maxHeight: 200),
-                        context: context,
-                        builder: (context) {
-                          return ChangeNotifierProvider.value(
-                            value: bloc,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Text(
-                                    widget.shelf?.shelfName ?? "",
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
+                return Padding(
+                  padding: EdgeInsets.only(right: MARGIN_MEDIUM_2),
+                  child: GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                          constraints: BoxConstraints(maxHeight: 200),
+                          context: context,
+                          builder: (context) {
+                            return ChangeNotifierProvider.value(
+                              value: bloc,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Text(
+                                      widget.shelf?.shelfName ?? "",
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                // LineSeparatorView(),
-                                SizedBox(height: 10),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 30, bottom: 16),
-                                  child: FunctionsOfShowModalOne(
-                                    onTap: () {
-                                      setState(() {
-                                        Navigator.pop(context);
-                                        visibleTextField = true;
-                                        visibleTitleView = false;
-                                      });
-                                    },
-                                    icon: Icons.drive_file_rename_outline,
-                                    text: "Rename shelf",
+                                  // LineSeparatorView(),
+                                  SizedBox(height: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 30, bottom: 16),
+                                    child: FunctionsOfShowModalOne(
+                                      onTap: () {
+                                        setState(() {
+                                          Navigator.pop(context);
+                                          visibleTextField = true;
+                                          visibleTitleView = false;
+                                        });
+                                      },
+                                      icon: Icons.drive_file_rename_outline,
+                                      text: "Rename shelf",
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 30, bottom: 16),
-                                  child: FunctionsOfShowModalOne(
-                                    onTap: () {
-                                      setState(() {
-                                        bloc.deleteShelf(
-                                            widget.shelf?.shelfName);
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
-                                      });
-                                    },
-                                    icon: Icons.delete_sharp,
-                                    text: "Delete shelf",
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                        });
-                  },
-                  child: Container(
-                    padding: EdgeInsets.only(right: 4),
-                    child: Icon(
-                      Icons.more_horiz,
-                      color: Colors.black54,
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 30, bottom: 16),
+                                    child: FunctionsOfShowModalOne(
+                                      onTap: () {
+                                        setState(() {
+                                          bloc.deleteShelf(
+                                              widget.shelf?.shelfName);
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        });
+                                      },
+                                      icon: Icons.delete_sharp,
+                                      text: "Delete shelf",
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          });
+                    },
+                    child:
+                       Icon(
+                        Icons.more_horiz,
+                        color: Colors.black54,
+                        size: 35,
                     ),
                   ),
                 );

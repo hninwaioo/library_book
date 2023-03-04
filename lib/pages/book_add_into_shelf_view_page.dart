@@ -41,14 +41,17 @@ class _BookAddIntoShelfViewPageState extends State<BookAddIntoShelfViewPage> {
           centerTitle: true,
           title: TypicalText("Add to Shelves",Colors.black,TEXT_REGULAR_2x,isFontWeight: true,),
           actions: [
-            GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Icon(
-                Icons.close,
-                size: 30,
-                color: Colors.black,
+            Padding(
+              padding: EdgeInsets.only(right: MARGIN_MEDIUM_2),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.close,
+                  size: 35,
+                  color: Colors.black,
+                ),
               ),
             )
           ],
@@ -65,7 +68,7 @@ class _BookAddIntoShelfViewPageState extends State<BookAddIntoShelfViewPage> {
                   BookVO? selectedBook = booksInShelf?.firstWhere(
                           (element) => element.title == widget.book.title);
 
-                return CheckBoxOrArrowWithBookImageAndNameView(
+                return ShelvesListItemView(
                   bloc: bloc,
                   onTapArrow: (e) {},
                   visibleArrow: false,

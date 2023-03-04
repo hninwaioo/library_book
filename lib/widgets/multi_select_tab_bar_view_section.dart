@@ -4,7 +4,6 @@ class MultiSelectTabBarViewSection extends StatefulWidget {
   List<String?>? tabList;
   Function(String) onTab;
   Function onTapCrossButton;
-  // Function(String? tab) onTabBookTypeChooser;
 
   String? chosenTab;
   bool? crossButtonVisible;
@@ -14,7 +13,6 @@ class MultiSelectTabBarViewSection extends StatefulWidget {
     required this.tabList,
     required this.onTab,
     required this.onTapCrossButton,
-    // required this.onTabBookTypeChooser,
     required this.chosenTab,
     required this.chosenTabVisible,
     required this.crossButtonVisible,
@@ -45,7 +43,12 @@ class _MultiSelectTabBarViewSectionState
           SizedBox(width: 10),
           Visibility(
               visible: widget.chosenTabVisible ?? false,
-              child: ChosenTabWithColorView(text: "${widget.chosenTab}")),
+              child: ChosenTabWithColorView(
+                  text: "${widget.chosenTab}",
+                textColor: (widget.chosenTabVisible??false)
+                ? Colors.white : Colors.black,
+              ),
+          ),
           SizedBox(width: 10),
           Visibility(
             visible: (widget.tabList!.isNotEmpty),
@@ -64,7 +67,8 @@ class _MultiSelectTabBarViewSectionState
 
 class ChosenTabWithColorView extends StatelessWidget {
   String text;
-  ChosenTabWithColorView({required this.text});
+  Color textColor;
+  ChosenTabWithColorView({required this.text, required this.textColor});
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +83,12 @@ class ChosenTabWithColorView extends StatelessWidget {
         ),
       ),
       child: Center(
-        child: Text(text),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: textColor
+          ),
+        ),
       ),
     );
   }

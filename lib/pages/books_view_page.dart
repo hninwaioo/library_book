@@ -110,7 +110,6 @@ class _BooksViewPageState extends State<BooksViewPage> {
                               );
                             }),
 
-
                     // ListView.separated(
                     //   shrinkWrap: true,
                     //   itemCount: mainListBooks?.length??0,
@@ -133,9 +132,8 @@ class _BooksViewPageState extends State<BooksViewPage> {
                 ],
               ),
           ),
-          ),
-
-      );
+      ),
+    );
   }
 
   Future<dynamic> _navigateToBooksTypeListDetailScreen(BuildContext context,
@@ -146,59 +144,7 @@ class _BooksViewPageState extends State<BooksViewPage> {
         builder: (context) => BooksTypeListDetailViewPage(
           listName: listName,
           bookList: bookList,
-        )
-    )
-    );
-  }
-}
-
-
-class SearchBooksSectionView extends StatelessWidget {
-  const SearchBooksSectionView({
-    Key? key,
-    required this.prefixIcon,
-  }) : super(key: key);
-
-  final  prefixIcon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        child:
-        Container(
-          height: 45,
-          width: 100,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: Colors.black54
-            // gradient: LinearGradient(
-            //     begin: Alignment.centerLeft,
-            //     end: Alignment.centerRight,
-            //     colors: [
-            //       Color.fromRGBO(22, 22, 22, 1.0),
-            //       Color.fromRGBO(21, 21, 21, 1.0)
-            //     ]
-            // )
-          ),
-
-          child: Row(
-            children: [
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  // prefixIcon: prefixIcon??Icon(Icons.search_outlined,color: TEXT_PRIMARY_COLOR,),
-                  hintText: SEARCH_PLAY_BOOKS,
-                  hintStyle: TextStyle(
-                      leadingDistribution: TextLeadingDistribution.even,
-                      color: HINT_TEXT_COLOR
-                  ),
-                  enabled: false
-                ),
-                textAlign: TextAlign.start,
-              ),
-            ],
-          )
-        )
+        ))
     );
   }
 }
@@ -206,10 +152,8 @@ class SearchBooksSectionView extends StatelessWidget {
 class BannerBooksSectionView extends StatefulWidget {
 
   List<String?> bannerList;
-  // BookVO? bookVO;
   BannerBooksSectionView({
     required this.bannerList,
-    // required this.bookVO
   });
 
   @override
@@ -452,8 +396,6 @@ class BooksListHorizontalSectionView extends StatelessWidget {
   List<BookVO> booksList;
   BooksListHorizontalSectionView({required this.booksList});
 
-  // var openDate = DateTime.now();
-
   @override
   Widget build(BuildContext context) {
     return
@@ -483,12 +425,6 @@ class BooksListHorizontalSectionView extends StatelessWidget {
                       _navigateToBooksDetailScreen(
                         context,
                         booksList[index]
-
-                      // }
-                        // booksList[index].listName??"",
-                        // booksList[index].title??"",
-                        // booksList[index].openedDate??""
-
                     );
                   },
                 );
@@ -497,26 +433,16 @@ class BooksListHorizontalSectionView extends StatelessWidget {
     );
   }
 
-  // SelectedBook(BookVO bookVO){
-  //   bookVO.openedDate = openDate.toString();
-  //   bookVO.isAddedLibrary = true;
-  //   return bookVO;
-  // }
-
   Future<dynamic> _navigateToBooksDetailScreen(
       BuildContext context,
       // String listName,String bookName, String openedDate
       BookVO? bookVO
-      ) =>
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => BookDetailViewPage(
-                bookVO: bookVO,
-                // listName: listName,
-                // title: bookName,
-                // openedDate: openedDate,
-              )
+      ) => Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => BookDetailViewPage(
+            bookVO: bookVO,
           )
-      );
+      )
+  );
 }

@@ -5,13 +5,10 @@ import 'package:library_app/widgets/typical_text.dart';
 
 import '../data/vos/book_vo.dart';
 import '../resources/dimens.dart';
-import '../widgets/bottom_sheet_for_book_in_library_view.dart';
 import 'banner_book_image_item_view.dart';
 
 class BooksListViewItem extends StatelessWidget {
 
-  // BookVO dataBook;
-  // final Function(BookVO bookVO) onTapBook;
   BookVO? book;
   double marginInGridView;
   bool? isThreeGrid;
@@ -74,24 +71,6 @@ class BooksListViewItem extends StatelessWidget {
                         child: Icon(Icons.keyboard_control_rounded,color: Colors.white,size: 40,)
                     ),
                 ),
-
-                // Positioned(
-                //     // alignment: Alignment.bottomLeft,
-                //     bottom: 0.0,
-                //     left: 0.0,
-                //     child: Visibility(
-                //       // visible: audioBook,
-                //       child: Container(
-                //         margin: EdgeInsets.all(MARGIN_MEDIUM),
-                //         padding: EdgeInsets.fromLTRB(MARGIN_CARD_MEDIUM_2, MARGIN_MEDIUM, MARGIN_CARD_MEDIUM_2, MARGIN_MEDIUM),
-                //         decoration: BoxDecoration(
-                //             color: Colors.black54,
-                //             borderRadius: BorderRadius.circular(10.0)
-                //         ),
-                //         child: Icon(Icons.headphones_sharp,color: Colors.white),
-                //       ),
-                //     )
-                // )
               ],
             ),
 

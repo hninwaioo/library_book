@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:library_app/pages/home_navigation_view_page.dart';
-import 'package:library_app/pages/news_feed_home_view_page.dart';
 import 'package:library_app/persistence/hive_constants.dart';
 import 'data/vos/book_vo.dart';
 import 'data/vos/buy_links_vo.dart';

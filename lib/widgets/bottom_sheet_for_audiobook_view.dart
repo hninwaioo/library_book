@@ -3,7 +3,7 @@ import 'package:library_app/resources/dimens.dart';
 import 'package:library_app/widgets/typical_text.dart';
 
 import '../resources/colors.dart';
-import 'bottom_sheet_for_book_in_library_view.dart';
+import 'bottom_sheet_book_image_view.dart';
 
 class BottomSheetForAudioBookView extends StatelessWidget {
   String mBookImage;

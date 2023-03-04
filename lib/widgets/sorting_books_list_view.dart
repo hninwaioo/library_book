@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:library_app/view_items/books_list_view_item.dart';
-import 'package:library_app/widgets/bottom_sheet_for_book_in_library_view.dart';
 import 'package:library_app/widgets/multi_select_tab_bar_view_section.dart';
 import '../data/vos/book_vo.dart';
-import '../pages/library_view_page.dart';
 import '../resources/colors.dart';
 import '../resources/dimens.dart';
+import 'bottom_sheet_book_image_view.dart';
 
 class SortingBookListView extends StatelessWidget {
 
@@ -50,7 +48,7 @@ class SortingBookListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        /// 1
+        /// MultiSelect Tab Bar
         MultiSelectTabBarViewSection(
           chosenTabVisible: chosenTabVisible,
           crossButtonVisible: crossButtonVisible,
@@ -65,10 +63,10 @@ class SortingBookListView extends StatelessWidget {
         ),
         SizedBox(height: 24),
 
-        /// 2
+        /// Sorting and Views Type
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 26),
-          child: TwoSortingButtonsInARowView(
+          child: TwoSortingAndViewsTypeInLibrarySectionView(
             onTapSortOne: (e) {
               onTapSortingOne(e);
             },
@@ -92,7 +90,7 @@ class SortingBookListView extends StatelessWidget {
 
         SizedBox(height: 20),
 
-        /// 3
+        /// Value For View
         (groupValueForView == 1)
             ?
         BooksVerticalListView(
@@ -177,7 +175,7 @@ class SortingBookListView extends StatelessWidget {
   }
 }
 
-class TwoSortingButtonsInARowView extends StatefulWidget {
+class TwoSortingAndViewsTypeInLibrarySectionView extends StatefulWidget {
   Function(int?) onTapViewOne;
   Function(int?) onTapViewTwo;
   Function(int?) onTapViewThree;
@@ -194,7 +192,7 @@ class TwoSortingButtonsInARowView extends StatefulWidget {
   String viewHeading;
   String sortHeading;
 
-  TwoSortingButtonsInARowView({
+  TwoSortingAndViewsTypeInLibrarySectionView({
     required this.onTapViewThree,
     required this.onTapViewTwo,
     required this.onTapViewOne,
@@ -214,12 +212,12 @@ class TwoSortingButtonsInARowView extends StatefulWidget {
   });
 
   @override
-  State<TwoSortingButtonsInARowView> createState() =>
-      _TwoSortingButtonsInARowViewState();
+  State<TwoSortingAndViewsTypeInLibrarySectionView> createState() =>
+      _TwoSortingAndViewsTypeInLibrarySectionViewState();
 }
 
-class _TwoSortingButtonsInARowViewState
-    extends State<TwoSortingButtonsInARowView> {
+class _TwoSortingAndViewsTypeInLibrarySectionViewState
+    extends State<TwoSortingAndViewsTypeInLibrarySectionView> {
   String? selectedSorting = "";
 
   int? groupValue = 0;
@@ -597,23 +595,7 @@ class BookItemDetailView extends StatelessWidget {
                   topRight: Radius.circular(8),
                 ),
               ),
-              // Positioned(
-              //   child: HeadPhoneForAudioBook(
-              //     book: book,
-              //   ),
-              //   left: 10,
-              //   bottom: 20,
-              // ),
-              // Positioned(
-              //   child: MoreViewForEachItem(
-              //     onPressedIcon: (book) {
-              //       onTapSeeMore(book);
-              //     },
-              //     book: book,
-              //   ),
-              //   right: 10,
-              //   top: 10,
-              // ),
+
               Positioned(
                 top: 10.0,
                 right: 10.0,
@@ -624,7 +606,6 @@ class BookItemDetailView extends StatelessWidget {
                     child: Icon(Icons.keyboard_control_rounded,color: Colors.white,size: 40,)
                 ),
               ),
-
             ],
           ),
           SizedBox(height: 8),
@@ -683,38 +664,19 @@ class _BooksVerticalListViewState extends State<BooksVerticalListView> {
             onTap: () {
               widget.onTapBook(widget.bookList?[index]);
             },
-            // child: VerticalListBookViewSection(
-            //   // onPressedIcon: (book) {
-            //   //   widget.bookVO = widget.bookList?[index];
-            //   //   widget.onPressIcon(widget.bookVO);
-            //   // },
-            //   // titleFont: 14,
-            //   // subTitleFont: 12,
-            //   // visibleDownLoadAndSeeMore: widget.visibleDownloadAndSeeMore,
-            //   // imageWidth: 60,
-            //   // imageHeight: 90,
-            //   // book: widget.bookList?[index],
-            //   // sizeBoxHeight: 20,
-            //   bookVO: widget.bookList?[index],
-            //   onTapBookAddToShelf: (BookVO ) {
-            //       widget.bookVO = widget.bookList?[index];
-            //       widget.onPressIcon(widget.bookVO);
-            //   },
-            // ),
-            child: BookAuthorImageForBottomSheet(
-              onPressedIcon: (book) {
-                widget.bookVO = widget.bookList?[index];
-                widget.onPressIcon(widget.bookVO);
-              },
-              titleFont: 14,
-              subTitleFont: 12,
-              visibleDownLoadAndSeeMore: widget.visibleDownloadAndSeeMore,
-              imageWidth: 60,
-              imageHeight: 90,
-              book: widget.bookList?[index],
-              sizeBoxHeight: 20,
-            ),
 
+            child: Column(
+              children:[
+                VerticalListBookViewSection(
+                  bookVO: widget.bookList?[index],
+                  onTapSeeMore: (book){
+                    widget.bookVO = widget.bookList?[index];
+                    widget.onPressIcon(widget.bookVO);
+                    },
+                ),
+                SizedBox(height: 16,)
+              ]
+            ),
           );
         });
   }
@@ -722,8 +684,8 @@ class _BooksVerticalListViewState extends State<BooksVerticalListView> {
 
 class VerticalListBookViewSection extends StatelessWidget {
   BookVO? bookVO;
-  Function(BookVO) onTapBookAddToShelf;
-  VerticalListBookViewSection({required this.bookVO, required this.onTapBookAddToShelf});
+  Function(BookVO) onTapSeeMore;
+  VerticalListBookViewSection({required this.bookVO, required this.onTapSeeMore});
 
   @override
   Widget build(BuildContext context) {
@@ -733,11 +695,10 @@ class VerticalListBookViewSection extends StatelessWidget {
         children: [
           BottomSheetBookImageView(
             mBookImage: bookVO?.bookImage??"",
-            // "https://m.media-amazon.com/images/I/51EkeX9IfCL._SX323_BO1,204,203,200_.jpg",
+              // "https://m.media-amazon.com/images/I/51EkeX9IfCL._SX323_BO1,204,203,200_.jpg",
             bookTitle: bookVO?.title??"",
             authorName: "${bookVO?.author??""} . Ebook",
           ),
-
           Spacer(),
 
           Container(
@@ -751,30 +712,10 @@ class VerticalListBookViewSection extends StatelessWidget {
                 SizedBox(width: MARGIN_MEDIUM_2,),
                 GestureDetector(
                     onTap: (){
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Container(
-                                height: 400,
-                                child:
-                                BottomSheetForBookInLibraryView(
-                                    addToShelf: () {
-                                      onTapBookAddToShelf(bookVO!);
-                                    },
-                                    visibleRemoveDownload: true,
-                                    visibleAboutThisBook: true,
-                                    visibleAddToShelves: true,
-                                    visibleAddToWishlist: true,
-                                    visibleDeleteFromLibrary: true,
-                                    onPressedIcon: (book) {},
-                                    book: bookVO)
-                            );
-                          }
-                      );
+                      onTapSeeMore(bookVO!);
                     },
                     child: Icon(Icons.keyboard_control_rounded,color: HINT_TEXT_COLOR,size: 30,)
                 )
-
               ],
             ),
           ),
@@ -1105,13 +1046,7 @@ class _BookAuthorImageForBottomSheetState
               ),
             ),
             Spacer(),
-            // Visibility(
-            //     visible: widget.visibleDownLoadAndSeeMore,
-            //     child: DownLoadAndMoreButtonForLibraryVerticalListView(
-            //       onPressedIcon: (book) {
-            //         widget.onPressedIcon(book);
-            //       },
-            //     )),
+
           ],
         ),
         SizedBox(height: widget.sizeBoxHeight)
